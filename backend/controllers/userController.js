@@ -1,5 +1,6 @@
 import { Usuario } from "../models/Usuario.js";
 import { generateJWT } from "../helpers/generateJWT.js";
+import { generateToken } from "../helpers/generateToken.js";
 
 const toRegister = async (req, res) => {
     const {email, password, administrador} = req.body;
@@ -81,4 +82,30 @@ const authenticate =  async (req, res) => {
     };
 };
 
-export { toRegister, profile, confirm, authenticate };
+const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    const existUser = await Usuario.findOne({ email });
+
+    if(!existUser){
+        const error = new Error ('El Usuario No Existe');
+        res.status(400).json({msg: error.message});
+    };
+
+
+    try {
+        existUser.token = generateToken();
+
+        await existUser.save();
+
+        res.json({msg: 'Hemos Enviado Un Email Con Las Instrucciones Para Recuperar Tu Cuenta 📧'})
+    } catch (error) {
+        return res.status(500).json({msg: 'Error En El Servidor'});
+    };
+};
+
+const checkToken = (req, res) => {};
+
+const newPassword = (req, res) => {};
+
+export { toRegister, profile, confirm, authenticate, forgotPassword, checkToken, newPassword };
