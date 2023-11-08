@@ -47,4 +47,35 @@ const confirm = async (req, res) => {
     };
 };
 
-export { toRegister, profile, confirm };
+//login user
+const authenticate =  async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        //find the user with email
+        const user = await Usuario.findOne({ email });
+
+        if(!user){
+            return res.status(403).json({msg: 'Usuario No Registrado ❌'});
+        };
+
+        //user has been confirmed
+        if(!user.confirmado){
+            return res.status(403).json({msg: 'Tu Cuenta No Ha Sido Confirmada'});
+        };
+
+        //cheking password
+        const isPasswordCorrect = await user.checkPassword(password);
+
+        if(!isPasswordCorrect){
+            return res.status(403).json({msg: 'Password Incorrecto ❌'});
+        } else {
+            return res.json({msg: 'Password Correcto 👍'});
+        };
+
+    } catch (error) {
+        return res.status(500).josn({msg: 'Error En El Servidor'});
+    };
+};
+
+export { toRegister, profile, confirm, authenticate };

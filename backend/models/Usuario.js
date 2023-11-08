@@ -36,5 +36,10 @@ usuarioSchema.pre('save', async function(next) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
+usuarioSchema.methods.checkPassword = async function(passwordForm) {
+    //comparing the password of form and password hashed
+    return await bcrypt.compare(passwordForm, this.password);
+};
+
 //* Registering Schema as a Model to use with Mongoose
 export const Usuario = mongoose.model('Usuario', usuarioSchema);
