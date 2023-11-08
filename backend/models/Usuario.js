@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { generateToken } from "../helpers/generateToken.js"
 
 const usuarioSchema = mongoose.Schema({
     email: {
@@ -10,11 +11,14 @@ const usuarioSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    admin: {
+    administrador: {
         type: Boolean,
-        default: null
+        default: false
     },
-    token: {},
+    token: {
+        type: String,
+        default: generateToken()
+    },
     confirmado: {
         type: Boolean,
         default: false
