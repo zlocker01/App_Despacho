@@ -1,4 +1,5 @@
 import { Usuario } from "../models/Usuario.js";
+import { generateJWT } from "../helpers/generateJWT.js";
 
 const toRegister = async (req, res) => {
     const {email, password, administrador} = req.body;
@@ -70,7 +71,7 @@ const authenticate =  async (req, res) => {
         if(!isPasswordCorrect){
             return res.status(403).json({msg: 'Password Incorrecto ❌'});
         } else {
-            return res.json({msg: 'Password Correcto 👍'});
+            return res.json({ token: generateJWT(user.id) });
         };
 
     } catch (error) {
