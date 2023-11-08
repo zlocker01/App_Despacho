@@ -23,7 +23,9 @@ const toRegister = async (req, res) => {
 };
 
 const profile =  (req, res) => {
-    res.json({msg: 'Mostrando Profile 👁️'});
+    const { user } = req;
+
+    res.json({profile: user});
 };
 
 const confirm = async (req, res) => {
