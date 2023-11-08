@@ -9,7 +9,7 @@ const toRegister = async (req, res) => {
     if(userExist){
         const error = new Error('Este Usuario Ya Está Registrado');
         return res.status(400).json({ msg: error.message });
-    }
+    };
 
     try {
         // saving new user
@@ -22,7 +22,29 @@ const toRegister = async (req, res) => {
 };
 
 const profile =  (req, res) => {
-    res.json({msg: 'Mostrando Profile'});
+    res.json({msg: 'Mostrando Profile 👁️'});
 };
 
-export { toRegister, profile };
+const confirm = async (req, res) => {
+    const { token } = req.params;
+
+    const confirmUser =  await Usuario.findOne({ token });
+
+    if(!confirmUser){
+        const error = new Error('Token no valido');
+        return res.status(404).json({ msg: error.message });
+    };
+
+    try {
+        confirmUser.token = null;
+        confirmUser.confirmado =  true;
+        await confirmUser.save();
+        
+        res.json({msg: 'Usuario Confirmado Correctamente 👍'});
+
+    } catch (error) {
+        console.log(error);
+    };
+};
+
+export { toRegister, profile, confirm };
