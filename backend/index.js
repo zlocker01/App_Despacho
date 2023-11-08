@@ -1,6 +1,7 @@
 import express from "express";
 import { conectarDB } from "./config/db.js";
 import dotenv from "dotenv";
+import { userRouter } from "./routes/userRoutes.js";
 
 const app = express();
 
@@ -8,9 +9,7 @@ dotenv.config();
 
 conectarDB();
 
-app.use('/', (req, res) => {
-    res.send('Hello world');
-});
+app.use('/api/usuarios', userRouter);
 
 const PORT = process.env.PORT || 4000;
 
