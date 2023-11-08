@@ -39,7 +39,7 @@ const confirm = async (req, res) => {
         confirmUser.token = null;
         confirmUser.confirmado =  true;
         await confirmUser.save();
-        
+
         res.json({msg: 'Usuario Confirmado Correctamente 👍'});
 
     } catch (error) {
