@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { Usuario } from "../models/Usuario.js";
 import { generateJWT } from "../helpers/generateJWT.js";
 import { generateToken } from "../helpers/generateToken.js";
@@ -92,7 +93,6 @@ const forgotPassword = async (req, res) => {
         res.status(400).json({msg: error.message});
     };
 
-
     try {
         existUser.token = generateToken();
 
@@ -104,8 +104,43 @@ const forgotPassword = async (req, res) => {
     };
 };
 
-const checkToken = (req, res) => {};
+const checkToken = async (req, res) => {
+    const { token } = req.params;
 
-const newPassword = (req, res) => {};
+    const validToken =  await Usuario.findOne({ token });
+
+    if(validToken){
+        res.json({msg: 'Token OK'})
+    } else {
+        const error = new Error('Token Invalido');
+        return res.status(400).json({msg: error.message});
+    };
+};
+
+const newPassword = async (req, res) => {
+    const { token } = req.params;
+    const { password } = req.body;
+    
+    const user = await Usuario.findOne({ token });
+
+    if(!user){
+        const error = new Error('Hubo Un Error');
+        return res.status(400).json({msg: error.message});
+    };
+
+    try {
+        // deleting the token after using and adding new password
+        user.token = null;
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user.password = hashedPassword;
+
+        await user.save();
+
+        res.json({msg: 'Nuevo Password Guardado 👍'});
+    } catch (error) {
+        console.log(error);
+    };
+};
 
 export { toRegister, profile, confirm, authenticate, forgotPassword, checkToken, newPassword };
