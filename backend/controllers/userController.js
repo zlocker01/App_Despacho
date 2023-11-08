@@ -1,9 +1,10 @@
 const toRegister = (req, res) => {
-    res.send('Desde Usuarios');
+    const {email, password, administrador } = req.body;
+    res.json({msg: 'Registrando Usuario'});
 };
 
 const profile =  (req, res) => {
-    res.send('Desde Usuarios profile');
+    res.json({msg: 'Mostrando Profile'});
 };
 
 export { toRegister, profile };
