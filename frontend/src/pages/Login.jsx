@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 export function Login() {
   return (
     <>
+      <h1>Inicia Sesión</h1>
       <form>
         <div>
           <label>Email: </label>
@@ -17,7 +18,7 @@ export function Login() {
 
       {/* Adding Link to get better performance */}
       <nav>
-        <Link to="/register">Registrar Nueva Cuenta</Link>
+        <Link to="/register">Registrate</Link>
         <br />
         <Link to="/forgot-password">Olvidé Mi Contraseña</Link>
       </nav>
