@@ -4,7 +4,7 @@ import { generateJWT } from "../helpers/generateJWT.js";
 import { generateToken } from "../helpers/generateToken.js";
 
 const toRegister = async (req, res) => {
-    const {email, password, administrador} = req.body;
+    const { email } = req.body;
 
     //prevent the same email in other user
     const userExist = await Usuario.findOne({ email }); 
