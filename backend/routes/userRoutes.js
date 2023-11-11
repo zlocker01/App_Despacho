@@ -14,7 +14,7 @@ import { authMiddleware } from "../middleware/authMiddleware.js";
 export const userRouter = express.Router();
 
 // *public area
-userRouter.post("/", toRegister);
+userRouter.post("/register", toRegister);
 
 userRouter.get("/confirm/:token", confirm); //dinamic param for endpoint
 
