@@ -10,10 +10,10 @@ dotenv.config();
 
 conectarDB();
 
-app.use('/api/usuarios', userRouter);
+app.use("/api/usuarios", userRouter);
 
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
-    console.log(`Server Working at ${PORT} port`);
+  console.log(`Server Working at ${PORT} port`);
 });
